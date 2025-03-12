@@ -29,6 +29,7 @@ const SearchPage: FC<SearchPageProps> = ({ params: { locale }, placeholder, titl
   const { debouncedValue } = useDebounce(searchValue, 500)
 
   useEffect(() => {
+    // Set searchFor query param, this will trigger the second useEffect with the request
     const currentSearchParams = new URLSearchParams(Array.from(searchParams.entries())) // -> has to use this form
     currentSearchParams.set('searchFor', debouncedValue)
     const search = currentSearchParams.toString()
