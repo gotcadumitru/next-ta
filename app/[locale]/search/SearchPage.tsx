@@ -9,6 +9,7 @@ import NavigationLink from '@/shared/ui/NavigationLink'
 import axios from 'axios'
 import { PropsWithLocale } from '@/shared/config/i18n/types'
 import useDebounce from '@/shared/lib/hooks/useDebounce/useDebounce'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import classes from './page.module.css'
 
 export type SearchPageProps = PropsWithLocale<{
@@ -17,25 +18,36 @@ export type SearchPageProps = PropsWithLocale<{
 }>
 
 const SearchPage: FC<SearchPageProps> = ({ params: { locale }, placeholder, title }) => {
-  const [searchValue, setSearchValue] = useState('')
+  const router = useRouter()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+  const searchValueFromParams = searchParams.get('searchFor') || ''
+
+  const [searchValue, setSearchValue] = useState(searchValueFromParams)
   const inputRef = useRef<HTMLInputElement>(null)
   const [listOfHolidays, setListOfHolidays] = useState<SearchHolidayItem[]>([])
   const { debouncedValue } = useDebounce(searchValue, 500)
 
   useEffect(() => {
-    if (debouncedValue.length > 2) {
-      const controller = new AbortController()
-      axios
-        .get<SearchHolidayItem[]>(`/${locale}/api/search-holiday?search=${debouncedValue}`, {
-          signal: controller.signal,
-        })
-        .then((response) => {
-          setListOfHolidays(response.data)
-        })
-        .catch(console.log)
-      return () => controller.abort()
-    }
+    const currentSearchParams = new URLSearchParams(Array.from(searchParams.entries())) // -> has to use this form
+    currentSearchParams.set('searchFor', debouncedValue)
+    const search = currentSearchParams.toString()
+    const query = search ? `?${search}` : ''
+    router.push(`${pathname}${query}`)
   }, [debouncedValue])
+
+  useEffect(() => {
+    const controller = new AbortController()
+    axios
+      .get<SearchHolidayItem[]>(`/${locale}/api/search-holiday?search=${searchValueFromParams}`, {
+        signal: controller.signal,
+      })
+      .then((response) => {
+        setListOfHolidays(response.data)
+      })
+      .catch(console.log)
+    return () => controller.abort()
+  }, [searchValueFromParams])
   const onSearchInputValueChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value)
   }
