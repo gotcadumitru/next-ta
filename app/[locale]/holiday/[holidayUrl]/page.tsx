@@ -1,4 +1,4 @@
-import {  getHolidayByHolidayUrl } from '@/enteties/holiday'
+import { getHolidayByHolidayUrl, Holiday } from '@/enteties/holiday'
 import { LocaleParams, PropsWithParams } from '@/shared/config/i18n/types'
 import NotFound from '@/widgets/NotFound'
 import { Metadata } from 'next'
@@ -32,10 +32,15 @@ export async function generateMetadata({
   }
 }
 
-const Page: FC<PropsWithParams<LocaleParams & HolidayPageProps>> = ({
+// SSR page
+const Page: FC<PropsWithParams<LocaleParams & HolidayPageProps>> = async ({
   params: { holidayUrl, locale },
 }) => {
-  const holiday = getHolidayByHolidayUrl(holidayUrl, locale)
+
+  const holiday = await new Promise<Holiday | null>((resolve) => {
+    setTimeout(() => resolve(getHolidayByHolidayUrl(holidayUrl, locale)), 2000)
+  })
+
   if (!holiday) return <NotFound />
   const [holidayDescriptionFirstPhrase, ...holidayRestOfTheDescription] =
     holiday.description.split('.')

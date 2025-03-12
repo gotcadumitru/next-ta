@@ -3,8 +3,8 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://next-ta.vercel.app
+Host: https://next-ta.vercel.app/
 
 # Sitemaps
 Sitemap: https://next-ta.vercel.app/sitemap.xml
-Sitemap: undefinedserver-sitemap-index.xml
+Sitemap: https://next-ta.vercel.app/server-sitemap-index.xml
