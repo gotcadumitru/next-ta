@@ -2,7 +2,6 @@ import {  getHolidayByHolidayUrl } from '@/enteties/holiday'
 import { LocaleParams, PropsWithParams } from '@/shared/config/i18n/types'
 import NotFound from '@/widgets/NotFound'
 import { Metadata } from 'next'
-import Image from 'next/image'
 import { FC } from 'react'
 import classes from './page.module.css'
 
@@ -45,7 +44,7 @@ const Page: FC<PropsWithParams<LocaleParams & HolidayPageProps>> = ({
       <h1 className={classes.holidayTitle}>{holiday.name}</h1>
       <p>
         {holidayDescriptionFirstPhrase}
-        <Image
+        <img
           className={classes.holidayImage}
           src={`https://sarbatori.net/images/${holiday.imageURL}`}
           alt={holiday.name}
