@@ -1,0 +1,27 @@
+.input {
+  border-radius: 20px;
+  background: var(--white);
+  height: 42px;
+}
+.searchPageTitle {
+  margin-top: 25px;
+  text-align: center;
+  color: var(--dark);
+  font-size: 20px;
+  font-weight: 600;
+  padding: 0 20px;
+}
+.inputContainerClassName {
+  background-color: transparent;
+}
+.holidayItems {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.holidayItem {
+  color: var(--dark);
+  font-size: 18px;
+  font-weight: 600;
+}
