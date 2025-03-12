@@ -47,7 +47,7 @@ const Page: FC<PropsWithParams<LocaleParams & HolidayPageProps>> = ({
         {holidayDescriptionFirstPhrase}
         <Image
           className={classes.holidayImage}
-          src={`/images/${holiday.imageURL}`}
+          src={`https://sarbatori.net/images/${holiday.imageURL}`}
           alt={holiday.name}
           width={130}
           height={130}
