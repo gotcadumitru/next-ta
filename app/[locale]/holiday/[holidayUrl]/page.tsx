@@ -1,13 +1,28 @@
-import { getHolidayByHolidayUrl, Holiday } from '@/enteties/holiday'
+import { getAllHolidays, getHolidayByHolidayUrl, Holiday } from '@/enteties/holiday'
 import { LocaleParams, PropsWithParams } from '@/shared/config/i18n/types'
 import NotFound from '@/widgets/NotFound'
 import { Metadata } from 'next'
 import { FC } from 'react'
+import { Locales, locales } from '@/shared/config/i18n/consts'
 import classes from './page.module.css'
 
 type HolidayPageProps = {
   holidayUrl: string
 }
+
+export const revalidate = 30
+
+export const generateStaticParams = () =>
+  getAllHolidays().reduce(
+    (params, holiday) => [
+      ...params,
+      ...locales.map((locale) => ({
+        locale,
+        holidayUrl: holiday[`url${locale}`],
+      })),
+    ],
+    [] as { locale: Locales; holidayUrl: string }[],
+  )
 
 export async function generateMetadata({
   params: { holidayUrl, locale },
@@ -36,7 +51,6 @@ export async function generateMetadata({
 const Page: FC<PropsWithParams<LocaleParams & HolidayPageProps>> = async ({
   params: { holidayUrl, locale },
 }) => {
-
   const holiday = await new Promise<Holiday | null>((resolve) => {
     setTimeout(() => resolve(getHolidayByHolidayUrl(holidayUrl, locale)), 2000)
   })
@@ -46,7 +60,7 @@ const Page: FC<PropsWithParams<LocaleParams & HolidayPageProps>> = async ({
     holiday.description.split('.')
   return (
     <div className='container'>
-      <h1 className={classes.holidayTitle}>{holiday.name}</h1>
+      <h1 className={classes.holidayTitle}>{holiday.name} {new Date().toISOString()}</h1>
       <p>
         {holidayDescriptionFirstPhrase}
         <img
