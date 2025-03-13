@@ -1,13 +1,12 @@
-import { getAllHolidays, getHolidayByHolidayUrl } from '@/enteties/holiday'
+import { getAllHolidays, getHolidayByHolidayUrl, Holiday } from '@/enteties/holiday'
 import NotFound from '@/widgets/NotFound'
 import { Metadata } from 'next'
 import { FC } from 'react'
 import { Locales, locales } from '@/shared/config/i18n/consts'
-// eslint-disable-next-line camelcase
 import classes from './page.module.css'
 
 
-export const revalidate = 30
+export const revalidate = 15
 
 export const generateStaticParams = () =>
   getAllHolidays().reduce(
@@ -58,8 +57,9 @@ const Page: FC<{
   }>
 }> = async ({ params }) => {
   const { locale, holidayUrl } = await params
-  const holiday = getHolidayByHolidayUrl(holidayUrl, locale)
-
+  const holiday = await new Promise<Holiday | null>((resolve) => {
+    setTimeout(() => resolve(getHolidayByHolidayUrl(holidayUrl, locale)), 1500)
+  })
   if (!holiday) return <NotFound />
   const [holidayDescriptionFirstPhrase, ...holidayRestOfTheDescription] =
     holiday.description.split('.')

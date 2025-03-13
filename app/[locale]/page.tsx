@@ -8,8 +8,6 @@ import { setRequestLocale } from 'next-intl/server'
 import classes from './page.module.css'
 
 export const metadata: Metadata = {}
-// export const generateStaticParams = () => locales.map((locale) => ({ locale }));
-export const revalidate = 30
 
 const Home: FC<PropsWithLocale> = async ({ params }) => {
   const {locale} = await params;
@@ -20,7 +18,6 @@ const Home: FC<PropsWithLocale> = async ({ params }) => {
   if (!holidays) return <NotFound />
   return (
     <main className={classes.main}>
-      {new Date().toISOString()}
       <HolidaysList locale={locale} holidaysWithDate={holidays} />
     </main>
   )

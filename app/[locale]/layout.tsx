@@ -24,7 +24,6 @@ export const viewport: Viewport = {
 
 export const generateStaticParams = () => locales.map((locale) => ({ locale }))
 
-// todo display install prompt for PWA
 export const generateMetadata = async ({
   params,
 }: PropsWithLocale): Promise<Metadata> => {
