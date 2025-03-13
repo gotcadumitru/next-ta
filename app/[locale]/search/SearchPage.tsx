@@ -17,7 +17,7 @@ export type SearchPageProps = LocaleParams & {
   placeholder: string
 }
 
-const SearchPage: FC<SearchPageProps> = ({ locale, placeholder, title }) => {
+const SearchPage: FC<SearchPageProps> = ({ placeholder, title }) => {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -40,7 +40,7 @@ const SearchPage: FC<SearchPageProps> = ({ locale, placeholder, title }) => {
   useEffect(() => {
     const controller = new AbortController()
     axios
-      .get<SearchHolidayItem[]>(`/${locale}/api/search-holiday?search=${searchValueFromParams}`, {
+      .get<SearchHolidayItem[]>(`/api/search-holiday?search=${searchValueFromParams}`, {
         signal: controller.signal,
       })
       .then((response) => {
