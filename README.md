@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Next.js Project
+
+## Overview
+This is a Next.js project designed for building modern, high-performance web applications with React and server-side rendering.
+
+## Features
+- Server-side rendering (SSR) and static site generation (SSG)
+- API routes for backend functionality
+- Built-in support for CSS and Sass
+- Optimized performance with automatic code-splitting
+- SEO-friendly with metadata handling
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+Ensure you have the following installed:
+- [Node.js](https://nodejs.org/) (LTS recommended)
+- npm or yarn package manager
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### Installation
+Clone the repository and install dependencies:
+```sh
+git clone https://github.com/gotcadumitru/next-ta.git
+cd next-ta
+npm install  # or yarn install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Running the Development Server
+Start the development server with:
+```sh
+npm run dev  # or yarn dev
+```
+Open [https://localhost:3000](https://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Building for Production
+To create an optimized production build:
+```sh
+npm run build  # or yarn build
+npm run start  # or yarn start
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Project Structure
+```
+/your-project
+├── pages/          # Next.js pages (routes)
+├── components/     # Reusable React components
+├── styles/         # Global and module styles
+├── public/         # Static assets
+├── api/            # API routes (if any)
+├── next.config.js  # Next.js configuration
+├── package.json    # Project dependencies and scripts
+└── README.md       # Project documentation
+```
 
-## Learn More
+## Environment Variables
+Create a `.env.local` file for environment variables:
+```
+SITE_URL=https://next-ta.vercel.app/
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Deployment
+Next.js supports multiple deployment options:
+- [Vercel](https://vercel.com/): `vercel deploy`
+- [Netlify](https://www.netlify.com/)
+- Self-hosting: `npm run build` + `npm run start`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Contributing
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature-branch`)
+3. Commit your changes (`git commit -m 'Add new feature'`)
+4. Push to the branch (`git push origin feature-branch`)
+5. Open a Pull Request
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## License
+This project is licensed under the MIT License.
