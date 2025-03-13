@@ -8,7 +8,7 @@ import Twitter from '@/shared/assets/icons/Twitter'
 import { AppRoutes } from '@/shared/config/i18n/routes'
 import Modal from '@/shared/ui/Modal'
 import classNames from 'classnames'
-import { FC, useEffect, useMemo } from 'react'
+import { FC, useMemo } from 'react'
 import classes from '../../styles/share.module.css'
 
 interface ShareModalType extends ShareIconType {
@@ -20,11 +20,11 @@ export const ShareModal: FC<ShareModalType> = ({
   isDisplayed,
   setIsDisplayed,
   holiday,
-  params,
+  locale,
 }) => {
-  const holidayUrl = `https://${typeof window !== 'undefined' && window.location.hostname}/${
-    params.locale
-  }${AppRoutes.holiday}/${holiday.url}`
+  const holidayUrl = `https://${
+    typeof window !== 'undefined' && window.location.hostname
+  }/${locale}${AppRoutes.holiday}/${holiday.url}`
   const dataToShare: ShareData = {
     title: holiday.name,
     text: holiday.description,
@@ -35,7 +35,6 @@ export const ShareModal: FC<ShareModalType> = ({
     () => typeof navigator !== 'undefined' && navigator.canShare && navigator.canShare(dataToShare),
     [],
   )
-  useEffect(() => {}, [])
 
   const onMoreIconClick = async () => {
     try {

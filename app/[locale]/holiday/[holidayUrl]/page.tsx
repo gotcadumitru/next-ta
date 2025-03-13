@@ -1,14 +1,11 @@
-import { getAllHolidays, getHolidayByHolidayUrl, Holiday } from '@/enteties/holiday'
-import { LocaleParams, PropsWithParams } from '@/shared/config/i18n/types'
+import { getAllHolidays, getHolidayByHolidayUrl } from '@/enteties/holiday'
 import NotFound from '@/widgets/NotFound'
 import { Metadata } from 'next'
 import { FC } from 'react'
 import { Locales, locales } from '@/shared/config/i18n/consts'
+// eslint-disable-next-line camelcase
 import classes from './page.module.css'
 
-type HolidayPageProps = {
-  holidayUrl: string
-}
 
 export const revalidate = 30
 
@@ -25,8 +22,14 @@ export const generateStaticParams = () =>
   )
 
 export async function generateMetadata({
-  params: { holidayUrl, locale },
-}: PropsWithParams<LocaleParams & HolidayPageProps>): Promise<Metadata> {
+  params,
+}: {
+  params: Promise<{
+    locale: Locales
+    holidayUrl: string
+  }>
+}): Promise<Metadata> {
+  const { locale, holidayUrl } = await params
   const holiday = getHolidayByHolidayUrl(holidayUrl, locale)
   if (!holiday) return {}
 
@@ -48,19 +51,23 @@ export async function generateMetadata({
 }
 
 // SSR page
-const Page: FC<PropsWithParams<LocaleParams & HolidayPageProps>> = async ({
-  params: { holidayUrl, locale },
-}) => {
-  const holiday = await new Promise<Holiday | null>((resolve) => {
-    setTimeout(() => resolve(getHolidayByHolidayUrl(holidayUrl, locale)), 2000)
-  })
+const Page: FC<{
+  params: Promise<{
+    locale: Locales
+    holidayUrl: string
+  }>
+}> = async ({ params }) => {
+  const { locale, holidayUrl } = await params
+  const holiday = getHolidayByHolidayUrl(holidayUrl, locale)
 
   if (!holiday) return <NotFound />
   const [holidayDescriptionFirstPhrase, ...holidayRestOfTheDescription] =
     holiday.description.split('.')
   return (
     <div className='container'>
-      <h1 className={classes.holidayTitle}>{holiday.name} {new Date().toISOString()}</h1>
+      <h1 className={classes.holidayTitle}>
+        {holiday.name} {new Date().toISOString()}
+      </h1>
       <p>
         {holidayDescriptionFirstPhrase}
         <img

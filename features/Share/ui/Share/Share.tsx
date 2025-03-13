@@ -2,16 +2,16 @@
 
 import { Holiday } from '@/enteties/holiday'
 import ShareIcon from '@/shared/assets/icons/ShareIcon'
-import { PropsWithLocale } from '@/shared/config/i18n/types'
+import { LocaleParams } from '@/shared/config/i18n/types'
 import { FC, useState } from 'react'
 import classes from '../../styles/share.module.css'
 import { ShareModal } from '../ShareModal/ShareModal'
 
-export type ShareIconType = PropsWithLocale<{
+export type ShareIconType = LocaleParams & {
   holiday: Holiday
-}>
+}
 
-export const Share: FC<PropsWithLocale<ShareIconType>> = (props) => {
+export const Share: FC<LocaleParams & ShareIconType> = (props) => {
   const [isDisplayed, setIsDisplayed] = useState(false)
   return (
     <div className={classes.searchInput}>

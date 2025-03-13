@@ -1,5 +1,5 @@
 import { locales, Locales } from '@/shared/config/i18n/consts'
-import { Pathnames } from 'next-intl/navigation'
+import { Pathnames } from 'next-intl/routing'
 
 export type LocaleParams = {
   locale: Locales
@@ -10,7 +10,7 @@ export type MonthSearchParams = {
 }
 
 export type PropsWithLocale<T = void> = T & {
-  params: LocaleParams
+  params: Promise<LocaleParams>
 }
 export type PropsWithSearchParams<Params, T = void> = T & {
     searchParams: Params

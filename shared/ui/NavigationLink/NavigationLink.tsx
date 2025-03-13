@@ -1,14 +1,13 @@
 'use client'
 
 import { Link } from '@/navigation'
-import { pathnames } from '@/shared/config/i18n/pathnames'
 import { useSelectedLayoutSegment } from 'next/navigation'
 import { ComponentProps } from 'react'
 
-const NavigationLink = <Pathname extends keyof typeof pathnames>({
+const NavigationLink = ({
   href,
   ...rest
-}: ComponentProps<typeof Link<Pathname>>) => {
+}: ComponentProps<typeof Link>) =>{
   const selectedLayoutSegment = useSelectedLayoutSegment()
   const pathname = selectedLayoutSegment ? `/${selectedLayoutSegment}` : '/'
   const isActive = pathname === href

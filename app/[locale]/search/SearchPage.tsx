@@ -7,17 +7,17 @@ import SearchIcon from '@/shared/assets/icons/SearchIcon'
 import Input from '@/shared/ui/Input'
 import NavigationLink from '@/shared/ui/NavigationLink'
 import axios from 'axios'
-import { PropsWithLocale } from '@/shared/config/i18n/types'
+import { LocaleParams } from '@/shared/config/i18n/types'
 import useDebounce from '@/shared/lib/hooks/useDebounce/useDebounce'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import classes from './page.module.css'
 
-export type SearchPageProps = PropsWithLocale<{
+export type SearchPageProps = LocaleParams & {
   title: string
   placeholder: string
-}>
+}
 
-const SearchPage: FC<SearchPageProps> = ({ params: { locale }, placeholder, title }) => {
+const SearchPage: FC<SearchPageProps> = ({ locale, placeholder, title }) => {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()

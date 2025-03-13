@@ -1,19 +1,20 @@
+import 'react-toastify/dist/ReactToastify.css'
+import './globals.css'
+import './skeleton.css'
 import { inter } from '@/app/fonts'
 import { GotToTopButton } from '@/features/GotToTopButton/ui/GotToTopButton'
 import { locales } from '@/shared/config/i18n/consts'
-import { LocaleParams, PropsWithLocale, PropsWithParams } from '@/shared/config/i18n/types'
+import { PropsWithLocale } from '@/shared/config/i18n/types'
 import { toastDefaultValues } from '@/shared/config/toastify'
 import Header from '@/widgets/Header'
 import classNames from 'classnames'
 import { Metadata, Viewport } from 'next'
-// eslint-disable-next-line camelcase
-import { getTranslations, unstable_setRequestLocale } from 'next-intl/server'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 import { FC, PropsWithChildren, Suspense } from 'react'
 import { ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
-import './globals.css'
-import './skeleton.css'
+import { hasLocale, NextIntlClientProvider } from 'next-intl'
+import { routing } from '@/shared/config/i18n/routing'
 
 export const viewport: Viewport = {
   themeColor: '#ffffff',
@@ -25,8 +26,9 @@ export const generateStaticParams = () => locales.map((locale) => ({ locale }))
 
 // todo display install prompt for PWA
 export const generateMetadata = async ({
-  params: { locale },
-}: PropsWithParams<LocaleParams>): Promise<Metadata> => {
+  params,
+}: PropsWithLocale): Promise<Metadata> => {
+  const {locale} = await params;
   const t = await getTranslations({ locale, namespace: 'metadata' })
   return {
     title: t('title'),
@@ -229,12 +231,16 @@ export const generateMetadata = async ({
   }
 }
 
-const LocaleLayout: FC<PropsWithChildren<PropsWithLocale>> = ({ children, params: { locale } }) => {
-  unstable_setRequestLocale(locale)
-  if (!locales.includes(locale as any)) notFound()
+const LocaleLayout: FC<PropsWithChildren<PropsWithLocale>> = async ({ children, params }) => {
+  const { locale } = await params
+  setRequestLocale(locale)
+  if (!hasLocale(routing.locales, locale)) {
+    notFound()
+  }
   return (
     <html lang={locale}>
       <body className={classNames(inter.className)}>
+        <NextIntlClientProvider>
         <Header />
         {children}
         <Suspense>
@@ -243,6 +249,7 @@ const LocaleLayout: FC<PropsWithChildren<PropsWithLocale>> = ({ children, params
         <Suspense>
           <GotToTopButton />
         </Suspense>
+        </NextIntlClientProvider>
       </body>
     </html>
   )

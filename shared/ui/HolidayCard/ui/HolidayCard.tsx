@@ -2,7 +2,7 @@ import { roboto } from '@/app/fonts'
 import { Holiday } from '@/enteties/holiday'
 import Share from '@/features/Share'
 import { AppParams, AppRoutes } from '@/shared/config/i18n/routes'
-import { PropsWithLocale } from '@/shared/config/i18n/types'
+import { LocaleParams } from '@/shared/config/i18n/types'
 import NavigationLink from '@/shared/ui/NavigationLink'
 import classNames from 'classnames'
 import { FC } from 'react'
@@ -12,7 +12,7 @@ type HolidayCardProps = {
   holiday: Holiday
 }
 
-export const HolidayCard: FC<PropsWithLocale<HolidayCardProps>> = ({ holiday, params }) => {
+export const HolidayCard: FC<LocaleParams & HolidayCardProps> = ({ holiday, locale }) => {
   const description = holiday.shortDescription || holiday.description
   return (
     <div className={classes.holidayCard}>
@@ -31,7 +31,7 @@ export const HolidayCard: FC<PropsWithLocale<HolidayCardProps>> = ({ holiday, pa
           >
             {holiday.name}
           </NavigationLink>
-          <Share holiday={holiday} params={params} />
+          <Share holiday={holiday} locale={locale} />
         </div>
         {description && (
           <div className={classNames(roboto.className, classes.holidayCardDescription)}>

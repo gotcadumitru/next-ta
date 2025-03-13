@@ -44,8 +44,8 @@ export const Header: FC<HeaderProps> = ({ className }) => {
       <div
         onClick={() => setIsHeaderDisplayed(false)}
         className={classNames(
-          classes.header,
           'container',
+          classes.header,
           {
             [classes.headerActive]: isHeaderDisplayed,
           },
