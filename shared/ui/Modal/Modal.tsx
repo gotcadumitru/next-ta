@@ -5,7 +5,7 @@ import { useModal } from '@/shared/lib/hooks/useModal/useModal'
 import Overlay from '@/shared/ui/Overlay'
 import { Portal } from '@/shared/ui/Portal'
 import classNames from 'classnames'
-import { FC } from 'react'
+import { FC, useRef } from 'react'
 import { CSSTransition } from 'react-transition-group'
 import './modal.scss'
 import type { ModalPropsType } from './modalTypes'
@@ -22,10 +22,12 @@ const Modal: FC<ModalPropsType> = ({
 
   const modalContentClassName = classNames('modal__content', className)
   const modalClassName = classNames('modal')
+  const nodeRef = useRef(null);
+
   return (
     <Portal>
-      <CSSTransition in={isOpen} timeout={200} classNames='modal-anim' unmountOnExit>
-        <div className={modalClassName}>
+      <CSSTransition nodeRef={nodeRef} in={isOpen} timeout={200} classNames='modal-anim' unmountOnExit>
+        <div ref={nodeRef} className={modalClassName}>
           <Overlay onClick={onClose} />
           <div className={modalContentClassName}>
             {isCloseIconShow && <AiOutlineClose onClick={onClose} className='modal__close-icon' />}
